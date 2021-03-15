@@ -4,7 +4,10 @@ Notification.requestPermission(function(status) {
 });
 
 function displayNotification() {
+    console.log(navigator);
+    console.log(navigator.serviceWorker);
     navigator.serviceWorker.getRegistration().then(function(reg) {
+      console.log("reg", reg);
       reg.showNotification('Hello world!');
     });
 }
