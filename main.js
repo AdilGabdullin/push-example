@@ -1,61 +1,13 @@
-// if ('serviceWorker' in navigator) {
-//     navigator.serviceWorker.register('/push-example/service-worker.js')
-//         .then(function(registration) {
-//             console.log('Registration successful, scope is:', registration.scope);
-//         })
-//         .catch(function(error) {
-//             console.log('Service worker registration failed, error:', error);
-//         });
-// }
-//
-Notification.requestPermission(function(status) {
-    console.log('Notification permission status:', status);
-    displayNotification();
-    subscribeUser();
-});
-
-function displayNotification() {
-    navigator.serviceWorker.getRegistration().then(function(reg) {
-      reg.showNotification('Hello world!');
-    });
-}
-
-
-function subscribeUser() {
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.ready.then(function(reg) {
-
-            reg.pushManager.subscribe({
-                userVisibleOnly: true
-            }).then(function(sub) {
-                console.log('Endpoint URL: ', sub.endpoint);
-            }).catch(function(e) {
-                if (Notification.permission === 'denied') {
-                    console.warn('Permission for notifications was denied');
-                } else {
-                    console.error('Unable to subscribe to push', e);
-                }
-            });
-        })
-    }
-}
-
-
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/push-example/service-worker.js').then(function(reg) {
-        console.log('Service Worker Registered!', reg);
-
-        reg.pushManager.getSubscription().then(function(sub) {
-            if (sub === null) {
-                // Update UI to ask user to register for Push
-                console.log('Not subscribed to push service!');
-            } else {
-                // We have a subscription, update the database
-                console.log('Subscription object: ', sub);
-            }
-        });
-    })
-        .catch(function(err) {
-            console.log('Service Worker registration failed: ', err);
-        });
-}
+// Your web app's Firebase configuration
+var firebaseConfig = {
+    apiKey: "AIzaSyAUAr1ZuEMDvphuyIoMxj4t5UjVtRbQDgA",
+    authDomain: "push-test-307802.firebaseapp.com",
+    projectId: "push-test-307802",
+    storageBucket: "push-test-307802.appspot.com",
+    messagingSenderId: "97808521800",
+    appId: "1:97808521800:web:eb38d937f8355f3465967d"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const messaging = firebase.messaging();
+console.log({messaging});
