@@ -1,3 +1,12 @@
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('firebase-messaging-sw.js')
+        .then(function(registration) {
+            console.log('Registration successful, scope is:', registration.scope);
+        }).catch(function(err) {
+        console.log('Service worker registration failed, error:', err);
+    });
+}
+
 // Your web app's Firebase configuration
 var firebaseConfig = {
     apiKey: "AIzaSyAUAr1ZuEMDvphuyIoMxj4t5UjVtRbQDgA",
