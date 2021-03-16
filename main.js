@@ -11,6 +11,7 @@
 Notification.requestPermission(function(status) {
     console.log('Notification permission status:', status);
     displayNotification();
+    subscribeUser();
 });
 
 function displayNotification() {
@@ -19,25 +20,6 @@ function displayNotification() {
     });
 }
 
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/push-example/service-worker.js').then(function(reg) {
-        console.log('Service Worker Registered!', reg);
-
-        reg.pushManager.getSubscription().then(function(sub) {
-            if (sub === null) {
-                // Update UI to ask user to register for Push
-                console.log('Not subscribed to push service!');
-            } else {
-                // We have a subscription, update the database
-                console.log('Subscription object: ', sub);
-                subscribeUser();
-            }
-        });
-    })
-        .catch(function(err) {
-            console.log('Service Worker registration failed: ', err);
-        });
-}
 
 function subscribeUser() {
     if ('serviceWorker' in navigator) {
@@ -56,4 +38,24 @@ function subscribeUser() {
             });
         })
     }
+}
+
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/push-example/service-worker.js').then(function(reg) {
+        console.log('Service Worker Registered!', reg);
+
+        reg.pushManager.getSubscription().then(function(sub) {
+            if (sub === null) {
+                // Update UI to ask user to register for Push
+                console.log('Not subscribed to push service!');
+            } else {
+                // We have a subscription, update the database
+                console.log('Subscription object: ', sub);
+            }
+        });
+    })
+        .catch(function(err) {
+            console.log('Service Worker registration failed: ', err);
+        });
 }
